@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useState, useEffect } from 'react'
 
 const Pokemon = () => {
@@ -7,14 +8,18 @@ const Pokemon = () => {
       e.preventDefault();
 
       if (pokeList.length < 1) {
-         fetch('https://pokeapi.co/api/v2/pokemon?limit=1000')
-            .then(response => response.json())
-            .then(response => setPokeList(response.results))
-            .catch(err => console.log(err))
+         getPokemon().then(response => setPokeList( response ));
       } else {
          setPokeList([]);
       }
-   } 
+      console.log(pokeList);
+   }
+
+   async function getPokemon() {
+      const response = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=897')
+      console.log(response.data.results);
+      return response.data.results
+   }
 
    return (
       <div className="container">
